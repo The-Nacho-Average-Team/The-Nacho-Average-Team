@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
-const port = 80;
+const httpPort = 80;
+const httpsPort = 443;
 const ejs = require("ejs");
 const createError = require("http-errors");
 const path = require("path");
@@ -13,9 +14,11 @@ const connection = require("./model/db");
 const helmet = require("helmet");
 const secret = require('./config/info.json');
 const http = require('http');
+const https = require('https')
 const crypto = require("crypto")
-var server = http.createServer(app);
-var io = require('socket.io')(server);
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(app);
+var io = require('socket.io')(httpServer);
 
 app.use(helmet.permittedCrossDomainPolicies());
 app.use(helmet.referrerPolicy());
@@ -106,8 +109,11 @@ app.use(function (err, req, res, next) {
   res.render(err.message);
 });
 
-server.listen(port, secret.address, () => {
-  console.log(`Server running ${port}`);
+httpServer.listen(httpPort, secret.address, () => {
+  console.log(`Server running ${httpPort}`);
+});
+httpsServer.listen(httpsPort, secret.address, () => {
+  console.log(`Server running ${httpsPort}`);
 });
 
 module.exports = app;
