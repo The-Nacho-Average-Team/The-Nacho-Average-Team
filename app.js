@@ -34,7 +34,7 @@ app.use((req, res, next) => {
   //console.log(res.locals.cspNonce)
   next();
 });
-app.use(helmet.frameguard({ action: 'SAMEORIGIN' }));
+/* app.use(helmet.frameguard({ action: 'SAMEORIGIN' }));
 
 const cspOptions = {
   directives: {
@@ -45,7 +45,7 @@ const cspOptions = {
   }
 }
 
-app.use(helmet.contentSecurityPolicy(cspOptions))
+app.use(helmet.contentSecurityPolicy(cspOptions)) */
 
 const mainRouter = require("./Router/main");
 const searchRouter = require("./Router/search");
