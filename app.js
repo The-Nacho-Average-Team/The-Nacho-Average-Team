@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
-const httpPort = 80;
-const httpsPort = 443;
+const port = 80;
 const ejs = require("ejs");
 const createError = require("http-errors");
 const path = require("path");
@@ -14,13 +13,11 @@ const connection = require("./model/db");
 const helmet = require("helmet");
 const secret = require('./config/info.json');
 const http = require('http');
-const https = require('https')
 const crypto = require("crypto")
-var httpServer = http.createServer(app);
-var httpsServer = https.createServer(app);
-var io = require('socket.io')(httpServer);
+var server = http.createServer(app);
+var io = require('socket.io')(server);
 
-app.use(helmet.permittedCrossDomainPolicies());
+/* app.use(helmet.permittedCrossDomainPolicies());
 app.use(helmet.referrerPolicy());
 app.use(helmet.xssFilter());
 app.use(helmet.hsts());
@@ -37,7 +34,7 @@ app.use((req, res, next) => {
   //console.log(res.locals.cspNonce)
   next();
 });
-/* app.use(helmet.frameguard({ action: 'SAMEORIGIN' }));
+app.use(helmet.frameguard({ action: 'SAMEORIGIN' }));
 
 const cspOptions = {
   directives: {
@@ -48,7 +45,7 @@ const cspOptions = {
   }
 }
 
-app.use(helmet.contentSecurityPolicy(cspOptions)) */
+app.use(helmet.contentSecurityPolicy(cspOptions))  */
 
 const mainRouter = require("./Router/main");
 const searchRouter = require("./Router/search");
@@ -109,11 +106,8 @@ app.use(function (err, req, res, next) {
   res.render(err.message);
 });
 
-httpServer.listen(httpPort, secret.address, () => {
-  console.log(`Server running ${httpPort}`);
-});
-httpsServer.listen(httpsPort, secret.address, () => {
-  console.log(`Server running ${httpsPort}`);
+server.listen(port, secret.address, () => {
+  console.log(`Server running ${port}`);
 });
 
 module.exports = app;
