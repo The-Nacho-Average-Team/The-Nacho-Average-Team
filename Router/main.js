@@ -1,13 +1,25 @@
 const express = require("express");
 const app = express();
 let Router = express.Router();
+const axios = require("axios");
 
+/* const options = {
+  method: 'GET',
+  url: 'https://www.instagram.com/' + 'account4socialn' + '/following',
+  responseType: 'html',
+  params: {session_key: '<REQUIRED>'},
+  headers: {
 
-
-Router.get('/', function (req, res) {
-  res.render("index", {
-  })
-});
+  }
+}; */
+Router.get('/', (req, res) => {
+  res.render('index')
+})
+/* axios.request(options).then(function (response) {
+	console.log(response.data);
+}).catch(function (error) {
+	console.error(error);
+}); */
   /* req.session.error_msg = "";
   
   if (req.session.loggedin) {
